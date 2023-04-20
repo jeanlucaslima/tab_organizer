@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./popup.css" />
+</head>
+<body>
+  <template id="li_template">
+    <li>
+      <a>
+        <h3 class="title">Tab Title</h3>
+        <p class="pathname">Tab Pathname</p>
+      </a>
+    </li>
+  </template>
+  
+  <h1>Taber</h1>
+  <input 
+    aria-autocomplete="list"
+    aria-expanded="false"
+    type="text" id="search">
+
+  <input aria-activedescendant=""  aria-controls="top-nav-search-menu"  aria-labelledby="top-nav-search-label" autocomplete="off" id="top-nav-search-input" role="combobox" type="search" class="search-input-field" name="q" placeholder="   " required="" value="">
+
+  <button id="group_tabs">Group Tabs</button>
+  <div class="results">
+    <span class="found">
+      <p></p>
+    </span>
+    
+    <ul></ul>
+  </div>
+  
+  <script src="./popup.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "taber by jean",
+  "version": "0.1",
+
+  "description": "Counts and closes tabs based on user input",
+  
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "host_permissions": [
+    "https://*/*"
+  ]
+}

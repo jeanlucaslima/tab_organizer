@@ -1,0 +1,38 @@
+body {
+  width: 20rem;
+  background: #1d1d1f;
+  color: #e3e6ebd2;
+}
+
+ul {
+  list-style-type: none;
+  padding-inline-start: 0;
+  margin: 1rem 0;
+}
+
+li {
+  padding: 0.25rem;
+}
+li:nth-child(odd) {
+  background: #605e5e30;
+}
+li:nth-child(even) {
+  background: #9590906b;
+}
+
+h3,
+p {
+  margin: 0;
+}
+
+.results {
+    margin-top: 1rem;   
+}
+
+input {
+    padding-left: 0.5rem;
+    padding-right: 1rem;
+    width: 90%;
+    min-width: 5rem;
+    border-color: #858585;
+}

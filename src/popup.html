@@ -16,13 +16,14 @@
     </li>
   </template>
   
-  <h1>Taber</h1>
+  <h1>Tab Organizer</h1>
 
   <span class="found">
     <p class="total_tabs"></p>
   </span>
 
   <div class="button-row">
+    <button class="button" id="kill_duplicates">Kill duplicates</button>
     <button class="button" id="group_all_tabs">Group all tabs</button>
     <button class="button" id="show_all_tabs">Show all tabs</button>
   </div>
@@ -36,8 +37,12 @@
     incremental="incremental">
 
   <div class="results">
-    <button class="button" id="clear">Clear results</button>
     <p class="tab_counter"></p>
+
+    <div class="actions">
+      <button class="button" id="clear">Clear results</button>
+      <button class="button" id="group_results">Group these tabs</button>
+    </div>
 
     <ul></ul>
   </div>

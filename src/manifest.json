@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "taber by jean",
+  "name": "Tab Organizer by jean",
   "version": "0.1",
 
   "description": "Counts and closes tabs based on user input",

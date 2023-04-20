@@ -87,4 +87,12 @@ input_search.addEventListener('search', async () => {
 
   document.querySelector('ul').append(...elements);
   document.querySelector('.tab_counter').innerHTML = "Found " + elements.size + " tabs matching.";
+
+  const btn_group_results = document.querySelector('#group_results');
+  btn_group_results.addEventListener('click', async () => {
+    const tabIds = tabs_search.map(({ id }) => id);
+    const new_group = await chrome.tabs.group({ tabIds });
+    await chrome.tabGroups.update(new_group, { title: tabs_search.value });
+  });
 });
+

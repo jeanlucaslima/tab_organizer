@@ -82,8 +82,8 @@ button:hover {
 }
 
 .button-row {
-  text-align: right;
-  margin: 0.5rem 0 0.5rem 0;
+  text-align: center;
+  margin: 0.5rem auto 0.5rem auto;
   padding: 0.25rem 0 0.25rem 0;
 
   background-color: #605e5e30;

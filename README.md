@@ -4,6 +4,9 @@ A simple Chrome extension to organize tabs.
 
 This is a **WIP** not released yet, using it may hurt your tabs. 
 
+## Why? 
+I am a mess, I deal with 100+ tabs weekly. And I was annoyed that I couldn't find a good tab organizer that would allow me to kill all tabs matching a search and/or regex. 
+
 ## How it works
 
 * Counts all tabs

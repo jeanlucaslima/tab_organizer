@@ -17,22 +17,28 @@
   </template>
   
   <h1>Taber</h1>
+
+  <span class="found">
+    <p class="total_tabs"></p>
+  </span>
+
   <div class="button-row">
     <button class="button" id="group_all_tabs">Group all tabs</button>
+    <button class="button" id="show_all_tabs">Show all tabs</button>
   </div>
-  
+
   <input 
     aria-autocomplete="list"
     aria-expanded="false"
     autocomplete="off"
-    placeholder="Search for tabs"
-    type="search" id="search">
+    placeholder="Search by URL"
+    type="search"
+    incremental="incremental">
 
   <div class="results">
-    <span class="found">
-      <p></p>
-    </span>
-    
+    <button class="button" id="clear">Clear results</button>
+    <p class="tab_counter"></p>
+
     <ul></ul>
   </div>
   

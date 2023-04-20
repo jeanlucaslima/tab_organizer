@@ -1,7 +1,7 @@
 
 const tabs = await chrome.tabs.query({
     url: [
-      'https://*/*'
+      'https://*.youtube.com/*'
     ]
   });
   
@@ -31,9 +31,14 @@ const tabs = await chrome.tabs.query({
   document.querySelector('ul').append(...elements);
   document.querySelector('p').append("You have " + elements.size + " tabs open.");
   
-  const button = document.querySelector('button');
+  const button = document.querySelector('#group_all_tabs');
   button.addEventListener('click', async () => {
     const tabIds = tabs.map(({ id }) => id);
     const group = await chrome.tabs.group({ tabIds });
     await chrome.tabGroups.update(group, { title: 'YT' });
   });
+
+function clean_list() {
+    
+
+}

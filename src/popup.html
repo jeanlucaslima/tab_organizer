@@ -17,14 +17,17 @@
   </template>
   
   <h1>Taber</h1>
+  <div class="button-row">
+    <button class="button" id="group_all_tabs">Group all tabs</button>
+  </div>
+  
   <input 
     aria-autocomplete="list"
     aria-expanded="false"
-    type="text" id="search">
+    autocomplete="off"
+    placeholder="Search for tabs"
+    type="search" id="search">
 
-  <input aria-activedescendant=""  aria-controls="top-nav-search-menu"  aria-labelledby="top-nav-search-label" autocomplete="off" id="top-nav-search-input" role="combobox" type="search" class="search-input-field" name="q" placeholder="   " required="" value="">
-
-  <button id="group_tabs">Group Tabs</button>
   <div class="results">
     <span class="found">
       <p></p>

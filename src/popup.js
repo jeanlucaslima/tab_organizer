@@ -8,6 +8,8 @@ const tabs = await chrome.tabs.query({
 const collator = new Intl.Collator();
 tabs.sort((a, b) => collator.compare(a.title, b.title));
 
+
+
 const template = document.getElementById('li_template');
 const elements = new Set();
 
@@ -29,7 +31,7 @@ for (const tab of tabs) {
 }
 
 document.querySelector('ul').append(...elements);
-document.querySelector('.total_tabs').append("You have a total of " + elements.size + " tabs open.");
+document.querySelector('.number-tabs-open').append(elements.size);
 
 const button = document.querySelector('#group_all_tabs');
 button.addEventListener('click', async () => {
@@ -49,26 +51,37 @@ clear_button.addEventListener('click', async () => {
   document.querySelector('ul').innerHTML="";
 });
 
-const input_search = document.querySelector('input[type="search"]');
-input_search.addEventListener('search', async () => {
+const search_query = document.querySelector('input[type="search"]');
+search_query.addEventListener('search', async () => {
   let tl = document.createElement('li');
-  tl.innerHTML = 'Results for: ' + input_search.value;
+  tl.innerHTML = 'Results for: ' + search_query.value;
 
   document.querySelector('ul').innerHTML = '';
   document.querySelector('ul').appendChild(tl);
 
   const tabs_search = await chrome.tabs.query({
     url: [
-      input_search.value
+      "<all_urls>"
     ]
   });
 
-  const search_collator = new Intl.Collator();
-  tabs_search.sort((a, b) => search_collator.compare(a.title, b.title));
+  var results = [];
+
+  Object.values(tabs_search).forEach((val) => {
+      // searches for url
+      if(val.url.includes(search_query.value.toLowerCase())) { 
+          if(!results.includes(val.id)) { results.push(val) }
+      }
+  
+      // searches for title
+      if(val.title.includes(search_query.value.toLowerCase())) {         
+          if(!results.includes(val.id)) { results.push(val) }
+      }
+  });  
 
   const elements = new Set();
 
-  for (const tab of tabs_search) {
+  for (const tab of results) {
     const element = template.content.firstElementChild.cloneNode(true);
     
     const title = tab.title.split('-')[0].trim();
@@ -89,8 +102,9 @@ input_search.addEventListener('search', async () => {
   document.querySelector('.tab_counter').innerHTML = "Found " + elements.size + " tabs matching.";
 
   const btn_group_results = document.querySelector('#group_results');
+  
   btn_group_results.addEventListener('click', async () => {
-    const tabIds = tabs_search.map(({ id }) => id);
+    const tabIds = results.map(({ id }) => id);
     const new_group = await chrome.tabs.group({ tabIds });
     await chrome.tabGroups.update(new_group, { title: tabs_search.value });
   });

@@ -16,11 +16,23 @@
     </li>
   </template>
   
-  <h1>Tab Organizer</h1>
+  <div class="stats-container">
+    <span class="stat stat-tabs-open">
+      <p class="big-number number-tabs-open"></p>
+      <p class="stat-sub">open tabs</p>
+    </span>
 
-  <span class="found">
-    <p class="total_tabs"></p>
-  </span>
+    <span class="stat stat-tabs-repeated">
+      <p class="big-number number-tabs-repeated">0</p>
+      <p class="stat-sub">repeated tabs</p>
+    </span>
+
+    <span class="stat stat-tabs-playing">
+      <p class="big-number number-tabs-playing">0</p>
+      <p class="stat-sub">tabs playing media</p>
+    </span>
+  </div>
+
 
   <div class="button-row">
     <button class="button" id="kill_duplicates">Kill duplicates</button>
@@ -46,6 +58,11 @@
 
     <ul></ul>
   </div>
+
+  <footer>
+    <p>Tab Organizer</p> 
+    <p>version 0.1 (alpha)</p>
+  </footer>
   
   <script src="./popup.js" type="module"></script>
 </body>

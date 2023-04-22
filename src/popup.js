@@ -5,14 +5,17 @@ const tabs = await chrome.tabs.query({
   ]
 });
 
-const collator = new Intl.Collator();
-tabs.sort((a, b) => collator.compare(a.title, b.title));
+const audible = tabs.filter(tab => { return tab.audible; });
+
+document.querySelector('.number-tabs-open').append(tabs.length);
+document.querySelector('.number-audible').append(audible.length);
 
 
+//const collator = new Intl.Collator();
+//tabs.sort((a, b) => collator.compare(a.title, b.title));
 
 const template = document.getElementById('li_template');
 const elements = new Set();
-
 for (const tab of tabs) {
   const element = template.content.firstElementChild.cloneNode(true);
 
@@ -26,18 +29,24 @@ for (const tab of tabs) {
     await chrome.tabs.update(tab.id, { active: true });
     await chrome.windows.update(tab.windowId, { focused: true });
   });
+
+
+  element.querySelector('.btn-close-tab').addEventListener('click', async () => {
+    await chrome.tabs.remove(tab.id);
+    //element.querySelector('.btn-close-tab').innerHTML = "tab removed";
+    //element.querySelector('.btn-close-tab').setAttribute('disabled', '');
+    element.remove();
+  });
   
   elements.add(element);
 }
-
 document.querySelector('ul').append(...elements);
-document.querySelector('.number-tabs-open').append(elements.size);
 
 const button = document.querySelector('#group_all_tabs');
 button.addEventListener('click', async () => {
   const tabIds = tabs.map(({ id }) => id);
   const group = await chrome.tabs.group({ tabIds });
-  await chrome.tabGroups.update(group, { title: 'YT' });
+  await chrome.tabGroups.update(group, { title: 'All tabs' });
 });
 
 const show_all = document.querySelector("#show_all_tabs");
@@ -93,6 +102,13 @@ search_query.addEventListener('search', async () => {
       // need to focus window as well as the active tab
       await chrome.tabs.update(tab.id, { active: true });
       await chrome.windows.update(tab.windowId, { focused: true });
+    });
+
+    element.querySelector('.btn-close-tab').addEventListener('click', async () => {
+      await chrome.tabs.remove(tab.id);
+      //element.querySelector('.btn-close-tab').innerHTML = "tab removed";
+      //element.querySelector('.btn-close-tab').setAttribute('disabled', '');
+      element.remove();
     });
     
     elements.add(element);

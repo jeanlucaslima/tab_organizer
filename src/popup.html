@@ -9,10 +9,14 @@
 <body>
   <template id="li_template">
     <li>
-      <a>
-        <h3 class="title">Tab Title</h3>
-        <p class="pathname">Tab Pathname</p>
-      </a>
+      <div>
+        <a>
+          <h3 class="title">Tab Title</h3>
+          <p class="pathname">Tab Pathname</p>
+        </a>
+        <button class="btn btn-close-tab">X</button>
+        <button class="btn btn-mute">m</button>
+      </div>
     </li>
   </template>
   
@@ -28,7 +32,7 @@
     </span>
 
     <span class="stat stat-tabs-playing">
-      <p class="big-number number-tabs-playing">0</p>
+      <p class="big-number number-audible"></p>
       <p class="stat-sub">tabs playing media</p>
     </span>
   </div>  

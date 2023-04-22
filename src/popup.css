@@ -1,7 +1,9 @@
+:root {
+  color-scheme: dark;
+}
+
 body {
   width: 20rem;
-  background: #1d1d1f;
-  color: #e3e6ebd2;
 }
 
 ul {
@@ -35,8 +37,7 @@ input {
   padding: 5px 10px;
   transition: box-shadow 100ms ease-in, border 100ms ease-in, background-color 100ms ease-in;
   border: 2px solid #a9a9a9;
-  color: rgb(14, 14, 16);
-  background: #545555;
+  
   display: block;
   height: 1.75rem;
 
@@ -51,7 +52,6 @@ input:hover {
 
 input:focus{
   border-color: #1a191b;
-  background: #fff;
 }
 
 
@@ -149,6 +149,7 @@ footer > p {
 
 .title {
   font-size: 0.75rem;
+  overflow: hidden;
 }
 
 .pathname {

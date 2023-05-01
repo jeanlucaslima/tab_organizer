@@ -127,3 +127,8 @@ search_query.addEventListener('search', async () => {
   });
 });
 
+const kill_duplicates = document.querySelector("#kill_duplicates");
+kill_duplicates.addEventListener('click', async () => {
+  // TODO: map all tabs to be killed in a list and call chrome.tabs.kill
+
+});

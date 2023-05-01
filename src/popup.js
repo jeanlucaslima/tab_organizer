@@ -1,4 +1,5 @@
-// all current arrays
+// This script runs when popup
+// Load all tabs 
 const tabs = await chrome.tabs.query({
   url: [
     '<all_urls>'
@@ -16,6 +17,15 @@ const duplicates = tabs.filter((item, index, arr) => {
 document.querySelector('.number-tabs-open').append(tabs.length);
 document.querySelector('.number-audible').append(audible.length);
 document.querySelector('.number-repeated').append(duplicates.length);
+
+// // Test event listening 
+// // edit: it works!
+// function updateCounter(tabId, removeInfo) {
+//   const live_tabs = document.querySelector('.test_counter');
+//   live_tabs.append("tab closed");
+// 
+// }
+// chrome.tabs.onRemoved.addListener(updateCounter);
 
 // To sort tabs by Title 
 //const collator = new Intl.Collator();
@@ -58,8 +68,11 @@ button.addEventListener('click', async () => {
 
 const show_all = document.querySelector("#show_all_tabs");
 show_all.addEventListener('click', async () => {
+  document.querySelector('input[type="search"]').value = '';
+  document.querySelector('.btn-clear').style.visibility = 'collapse';
   document.querySelector('ul').innerHTML = '';
   document.querySelector('ul').append(...elements);
+  document.querySelector('.tab_counter').innerHTML = "Showing all " + tabs.length + " tabs.";
 });
 
 const clear_button = document.querySelector("#clear");
@@ -71,6 +84,9 @@ const search_query = document.querySelector('input[type="search"]');
 search_query.addEventListener('search', async () => {
   let tl = document.createElement('li');
   tl.innerHTML = 'Results for: ' + search_query.value;
+
+  // When search is active, offers to clean results
+  document.querySelector('.btn-clear').style.visibility = 'visible';
   
   document.querySelector('ul').innerHTML = '';
   document.querySelector('ul').appendChild(tl);
@@ -113,6 +129,7 @@ search_query.addEventListener('search', async () => {
     });
     
     elements.add(element);
+
   }
   
   document.querySelector('ul').append(...elements);

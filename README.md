@@ -1,16 +1,30 @@
-# Tab Organizer 
+# tabber
 
-A simple Chrome extension to organize tabs. 
+A simple Chrome extension to organize tabs, windows, and groups. 
 
 This is a **WIP** not released yet, using it may hurt your tabs. 
 
 ## Why? 
 I am a mess, I deal with 100+ tabs weekly. And I was annoyed that I couldn't find a good tab organizer that would allow me to kill all tabs matching a search and/or regex. 
 
+## Features
+
+Here's a list of the main features:
+
+* [ ] Search for tabs and titles 
+  * [ ] Group search results
+  * [ ] Close search results
+* [ ] Group all tabs
+* Context menu
+  * [ ] Group all tabs with a matching URL
+  * [ ] Close all duplicates
+* [ ] Close duplicates
+
 ## How it works
 
-* Counts all tabs
-* Search
+* Click or use `ctrl + u` or `cmd + u` to open it
+* Some stats show up
+* It will be ready to search
   * Counts tabs in search
   * Groups all tabs matching in the same window 
 

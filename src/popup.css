@@ -28,19 +28,19 @@ h1, h3, p {
 }
 
 .results {
-    margin-top: 0.25rem;   
+  margin-top: 0.25rem;   
 }
 
 input {
-  border-radius: 0.25rem;
+  
+  display: block;
+  border-radius: 0.1rem;
   line-height: 1.5;
   padding: 5px 10px;
   transition: box-shadow 100ms ease-in, border 100ms ease-in, background-color 100ms ease-in;
   border: 2px solid #a9a9a9;
-  
-  display: block;
   height: 1.75rem;
-
+  
   width: 100%;
   margin: 0.25rem auto 0.1rem auto;
   cursor: text;
@@ -66,9 +66,9 @@ button {
   outline: 0;
   border: none;
   cursor: pointer;
-
+  
   border-radius: 4px;
-
+  
   height: 1.75rem;
   background-color: #eae9e9;
   color: #0e0e10;
@@ -84,7 +84,7 @@ button:hover {
   text-align: center;
   margin: 0.5rem auto 0.5rem auto;
   padding: 0.25rem 0 0.25rem 0;
-
+  
   background-color: #605e5e30;
 }
 
@@ -98,24 +98,25 @@ button:hover {
 }
 
 .big-number {
-  font-size: 3rem;
+  font-size: 1.75rem;
 }
 
 .stat {
+  display: block;
   color: #ffffffc0;
   background-color: #ffffff2a;
   
-  aspect-ratio: 1;
-  
-  width: 6rem;
+  max-height: 4rem;
+  width: 4rem;
   text-align: center;
-  display: block;
-
+  
   padding-top: 1rem;
+  border-radius: 1rem;
 }
 
 .stat-sub {
-  font-size: 0.75rem;
+  font-size: 0.65rem;
+  margin-bottom: 0.75rem;
 }
 
 body::-webkit-scrollbar {
@@ -131,11 +132,11 @@ body::-webkit-scrollbar-thumb {
 }
 
 footer {
-  position: fixed;
   display: flex;
-  justify-content: space-between;
-  left: 0;
+  position: fixed;
   bottom: 0;
+  left: 0;
+  justify-content: space-between;
   line-height: 0.5rem;
   font-size: 0.5rem;
   width: 100%;
@@ -148,10 +149,50 @@ footer > p {
 }
 
 .title {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
+  line-height: 1rem;
   overflow: hidden;
+}
+
+.title:before {
+  content: url('img/icon_16.png');
+  width: 16px;
+  aspect-ratio: 1;
+  margin-right: 2px;
 }
 
 .pathname {
   overflow: hidden;
+}
+
+.row-tab {
+  display: flex;
+  flex-direction: row;
+}
+
+.tab-info {
+  flex: 1;
+}
+
+.btn {
+  width: 100%;
+  text-align: center;
+  aspect-ratio: 1;
+}
+
+.btn-row {
+  width: 1.5rem;
+}
+
+.tab-favicon {
+  width: 12px;
+  aspect-ratio: 1;
+}
+
+.pathname {
+  font-size: 0.65rem;
+}
+
+.btn-clear {
+  visibility: collapse;
 }

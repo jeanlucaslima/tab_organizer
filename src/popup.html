@@ -9,13 +9,17 @@
 <body>
   <template id="li_template">
     <li>
-      <div>
-        <a>
-          <h3 class="title">Tab Title</h3>
-          <p class="pathname">Tab Pathname</p>
-        </a>
-        <button class="btn btn-close-tab">X</button>
-        <button class="btn btn-mute">m</button>
+      <div class="row-tab">
+        <span class="tab-info">
+          <a>
+            <h3 class="title">Tab Title</h3>
+            <p class="pathname">Tab Pathname</p>
+          </a>
+        </span>
+        <div class="btn-row">
+          <button class="btn btn-close-tab">x</button>
+          <button class="btn btn-mute">m</button>
+        </div>
       </div>
     </li>
   </template>
@@ -27,20 +31,25 @@
     </span>
 
     <span class="stat stat-tabs-repeated">
-      <p class="big-number number-repeated">0</p>
-      <p class="stat-sub">repeated tabs</p>
+      <p class="big-number number-groups">0</p>
+      <p class="stat-sub">groups</p>
+    </span>
+
+    <span class="stat stat-tabs-repeated">
+      <p class="big-number number-repeated"></p>
+      <p class="stat-sub">duplicates</p>
     </span>
 
     <span class="stat stat-tabs-playing">
       <p class="big-number number-audible"></p>
-      <p class="stat-sub">tabs playing media</p>
+      <p class="stat-sub">playing media</p>
     </span>
   </div>  
 
   <div class="button-row">
     <button class="button" id="kill_duplicates">Kill duplicates</button>
     <button class="button" id="group_all_tabs">Group all tabs</button>
-    <button class="button" id="show_all_tabs">Show all tabs</button>
+  
   </div>
 
   <input 
@@ -56,8 +65,9 @@
     <p class="tab_counter"></p>
 
     <div class="actions">
-      <button class="button" id="clear">Clear results</button>
-      <button class="button" id="group_results">Group these tabs</button>
+      <button class="button btn-clear" id="clear">Clear results</button>
+      <button class="button btn-show-all" id="show_all_tabs">Show all tabs</button>
+      <button class="button" id="group_results">Group results</button>
     </div>
 
     <ul></ul>

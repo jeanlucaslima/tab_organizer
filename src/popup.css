@@ -1,198 +1,107 @@
-:root {
+html {
   color-scheme: dark;
 }
 
 body {
-  width: 20rem;
-}
-
-ul {
-  list-style-type: none;
-  padding-inline-start: 0;
-  margin: 1rem 0;
-}
-
-li {
-  padding: 0.25rem;
-  cursor:pointer;
-}
-li:nth-child(odd) {
-  background: #605e5e30;
-}
-li:nth-child(even) {
-  background: #9590906b;
-}
-
-h1, h3, p {
+  width: 400px;
+  height: 500px;
+  overflow-y: scroll;
   margin: 0;
+  padding: 0;
+
+  background-color: #222;
+  color: #fff;
 }
 
-.results {
-  margin-top: 0.25rem;   
-}
-
-input {
-  
-  display: block;
-  border-radius: 0.1rem;
-  line-height: 1.5;
-  padding: 5px 10px;
-  transition: box-shadow 100ms ease-in, border 100ms ease-in, background-color 100ms ease-in;
-  border: 2px solid #a9a9a9;
-  height: 1.75rem;
-  
+input[type="text"] {
   width: 100%;
-  margin: 0.25rem auto 0.1rem auto;
-  cursor: text;
+  margin-bottom: 10px;
 }
 
-input:hover {
-  border-color: #ccc;
-}
-
-input:focus{
-  border-color: #1a191b;
-}
-
-
-button {
-  appearance: none;
-  background: none;
-  border: none;
-}
-
-.button {
-  display: inline-block;
-  outline: 0;
-  border: none;
-  cursor: pointer;
-  
-  border-radius: 4px;
-  
-  height: 1.75rem;
-  background-color: #eae9e9;
-  color: #0e0e10;
-  padding: 0 10px;
-  
-}
-
-button:hover {
-  background-color: #eae9e9c5;
-}
-
-.button-row {
-  text-align: center;
-  margin: 0.5rem auto 0.5rem auto;
-  padding: 0.25rem 0 0.25rem 0;
-  
-  background-color: #605e5e30;
-}
-
-.total_tabs, .tab_counter {
-  margin-bottom: 0.75rem;
-}
-
-.stats-container {
+.tab-item {
   display: flex;
-  justify-content: space-evenly;
-}
-
-.big-number {
-  font-size: 1.75rem;
-}
-
-.stat {
-  display: block;
-  color: #ffffffc0;
-  background-color: #ffffff2a;
-  
-  max-height: 4rem;
-  width: 4rem;
-  text-align: center;
-  
-  padding-top: 1rem;
-  border-radius: 1rem;
-}
-
-.stat-sub {
-  font-size: 0.65rem;
-  margin-bottom: 0.75rem;
-}
-
-body::-webkit-scrollbar {
-  width: 0.25rem;
-}
-
-body::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: rgb(92, 90, 90);
-}
-
-footer {
-  display: flex;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  align-items: center;
   justify-content: space-between;
-  line-height: 0.5rem;
-  font-size: 0.5rem;
-  width: 100%;
-  color: #ffffff9e;
-  background-color: rgba(2, 2, 2, 0.783);
+  padding: 5px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
 }
 
-footer > p {
-  padding: 0 5px 0 5px;
+.tab-item:hover {
+  background-color: #444;
+}
+
+.tab-item img {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+}
+
+.tab-item .title {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.tab-item .close-button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
 }
 
 .title {
-  font-size: 0.68rem;
-  line-height: 1rem;
+  margin-left: 8px;
+  flex-grow: 1;
+  font-weight: bold;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.title:before {
-  content: url('img/icon_16.png');
-  width: 16px;
-  aspect-ratio: 1;
-  margin-right: 2px;
+.close-button {
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  font-size: 20px;
+  margin-left: 8px;
+  cursor: pointer;
 }
 
-.pathname {
-  overflow: hidden;
+.close-button:hover {
+  color: #f00;
 }
 
-.row-tab {
-  display: flex;
-  flex-direction: row;
+.group-header {
+  padding: 8px;
+  font-weight: bold;
+  background-color: #444;
+  border-bottom: 1px solid #333;
 }
 
-.tab-info {
-  flex: 1;
+/* scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
 }
 
-.btn {
-  width: 100%;
-  text-align: center;
-  aspect-ratio: 1;
+/* Track */
+::-webkit-scrollbar-track {
+  background: #333;
 }
 
-.btn-row {
-  width: 1.5rem;
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 5px;
 }
 
-.tab-favicon {
-  width: 12px;
-  aspect-ratio: 1;
-}
-
-.pathname {
-  font-size: 0.65rem;
-}
-
-.btn-clear {
-  visibility: collapse;
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #666;
 }

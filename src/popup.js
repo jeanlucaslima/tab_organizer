@@ -15,8 +15,11 @@ chrome.tabs.query({}, tabs => {
     const listItem = document.createElement('div');
     listItem.className = 'tab-item';
     listItem.innerHTML = `
-      <img src="${tab.favIconUrl || 'icon.png'}">
-      <div class="title">${tab.title}</div>
+      <img src="${tab.favIconUrl || 'img/icon-16.png'}">
+      <div class="tab-info">
+        <div class="title">${tab.title}</div>
+        <div class="url">${tab.url}</div>
+      </div>
       <button class="close-button">&times;</button>
     `;
     tabList.appendChild(listItem);
@@ -31,6 +34,8 @@ chrome.tabs.query({}, tabs => {
   // Calculate duplicate and media tab counts
   const urls = new Set();
   let mediaCountValue = 0;
+  duplicateCount.textContent = "0";
+
   tabs.forEach(tab => {
     if (urls.has(tab.url)) {
       duplicateCount.textContent = Number(duplicateCount.textContent) + 1;
@@ -50,6 +55,7 @@ chrome.tabs.query({}, tabs => {
     items.forEach(item => {
       const title = item.querySelector('.title').textContent.toLowerCase();
       const url = item.querySelector('img').getAttribute('src').toLowerCase();
+
       if (query.includes('*')) { // Check if query has a wildcard character
         const regex = new RegExp(query.replace(/\*/g, '.*'), 'i'); // Replace all wildcards with regex .* pattern
         if (title.match(regex) || url.match(regex)) {

@@ -28,4 +28,25 @@ Here's a list of the main features:
   * Counts tabs in search
   * Groups all tabs matching in the same window 
 
+
+## Valid searches
+
+These should be valid searches. Searches are not case sensitive. 
+
+`* -word`
+Give me all tabs that doesn't have `word`.
+
+`*`
+Give me all tabs
+
+`twitter -elon`
+Give me all tabs with the word `twitter` ron the title and/or URL and exclude tabs with the word `elon`.
+
+`linkedin john`
+Give me all tabs that have both words `linkedin` and `john`, but not necessarily together.
+
+`link*` 
+Give me all tabs that have words that start with `link`, that would include `linkedin` for example. 
+
+
 <img width="400" alt="image" src="https://user-images.githubusercontent.com/1311402/233271063-c68c70e7-338b-4fa1-b6cd-fd5ddb23dd5f.png">

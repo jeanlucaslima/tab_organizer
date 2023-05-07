@@ -73,3 +73,37 @@ chrome.tabs.query({}, tabs => {
     });
   });
 });
+
+const groupSearchResultsButton = document.querySelector('#group-search-results-button');
+groupSearchResultsButton.addEventListener('click', () => {
+  const items = Array.from(tabList.children);
+  const selectedItems = items.filter(item => item.style.display === 'flex');
+  if (selectedItems.length > 0) {
+    const groupTitle = prompt('Enter a title for the new group:');
+    if (groupTitle) {
+      const newGroup = {
+        title: groupTitle,
+        tabs: selectedItems.map(item => item.dataset.tabId),
+      };
+      addGroup(newGroup);
+      renderTabList();
+    }
+  } else {
+    alert('No search results to group.');
+  }
+});
+
+// Close search results button
+const closeSearchResultsButton = document.querySelector('#close-search-results-button');
+closeSearchResultsButton.addEventListener('click', () => {
+  const items = Array.from(tabList.children);
+  const selectedItems = items.filter(item => item.style.display === 'flex');
+  if (selectedItems.length > 0) {
+    selectedItems.forEach(item => {
+      chrome.tabs.remove(parseInt(item.dataset.tabId));
+    });
+    renderTabList();
+  } else {
+    alert('No search results to close.');
+  }
+});

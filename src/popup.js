@@ -2,15 +2,16 @@
 const searchInput = document.getElementById('search');
 const tabList = document.getElementById('tab-list');
 const tabCount = document.getElementById('tab-count');
+// Dashboard counters
 const duplicateCount = document.getElementById('duplicate-count');
 const mediaCount = document.getElementById('media-count');
+const groupCount = document.getElementById('group-count');
 
-// Query the list of open tabs and render them in the list
-chrome.tabs.query({}, tabs => {
-  // Update the tab count
-  tabCount.textContent = tabs.length;
+const tabs = await chrome.tabs.query({});
+const mediaTabs = {};
 
-  // Map each tab to a list item element and append to the list
+// Map each tab to a list item element and append to the list
+const renderTabList = (tabs) => {
   tabs.forEach(tab => {
     const listItem = document.createElement('div');
     listItem.className = 'tab-item';
@@ -23,54 +24,65 @@ chrome.tabs.query({}, tabs => {
       <button class="close-button">&times;</button>
     `;
     tabList.appendChild(listItem);
-
+    
     // Add event listener to close button
     listItem.querySelector('.close-button').addEventListener('click', () => {
       chrome.tabs.remove(tab.id);
       listItem.remove();
     });
   });
+}
+
+// Query the list of open tabs and render them in the list
+chrome.tabs.query({}, all_tabs => {
+  // Update the tab count in the dashboard
+  tabCount.textContent = tabs.length;
+
+  // Map each tab to a list item element and append to the list
+  renderTabList(all_tabs);
 
   // Calculate duplicate and media tab counts
   const urls = new Set();
   let mediaCountValue = 0;
   duplicateCount.textContent = "0";
 
-  tabs.forEach(tab => {
+  all_tabs.forEach(tab => {
     if (urls.has(tab.url)) {
       duplicateCount.textContent = Number(duplicateCount.textContent) + 1;
     } else {
       urls.add(tab.url);
     }
     if (tab.audible) {
+      // TODO: copy tab to mediaTabs obj Array
       mediaCountValue += 1;
     }
   });
   mediaCount.textContent = mediaCountValue;
+});
 
-  // Set up search functionality
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase();
-    const items = Array.from(tabList.children);
-    items.forEach(item => {
-      const title = item.querySelector('.title').textContent.toLowerCase();
-      const url = item.querySelector('img').getAttribute('src').toLowerCase();
+// Set up search functionality
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.toLowerCase();
+  const items = Array.from(tabs);
+  
+  items.forEach(item => {
+    const title = item.title.toLowerCase();
+    const url = item.url.toLowerCase();
 
-      if (query.includes('*')) { // Check if query has a wildcard character
-        const regex = new RegExp(query.replace(/\*/g, '.*'), 'i'); // Replace all wildcards with regex .* pattern
-        if (title.match(regex) || url.match(regex)) {
-          item.style.display = 'flex';
-        } else {
-          item.style.display = 'none';
-        }
+    if (query.includes('*')) { // Check if query has a wildcard character
+      const regex = new RegExp(query.replace(/\*/g, '.*'), 'i'); // Replace all wildcards with regex .* pattern
+      if (title.match(regex) || url.match(regex)) {
+        console.log(`match ${title}`);
       } else {
-        if (title.includes(query) || url.includes(query)) {
-          item.style.display = 'flex';
-        } else {
-          item.style.display = 'none';
-        }
+        console.log('no regex match');
       }
-    });
+    } else {
+      if (title.includes(query) || url.includes(query)) {
+        console.log(`match ${title}`);
+      } else {
+        console.log('no match');
+      }
+    }
   });
 });
 
@@ -86,7 +98,7 @@ groupSearchResultsButton.addEventListener('click', () => {
         tabs: selectedItems.map(item => item.dataset.tabId),
       };
       addGroup(newGroup);
-      renderTabList();
+      //renderTabList();
     }
   } else {
     alert('No search results to group.');
@@ -102,7 +114,7 @@ closeSearchResultsButton.addEventListener('click', () => {
     selectedItems.forEach(item => {
       chrome.tabs.remove(parseInt(item.dataset.tabId));
     });
-    renderTabList();
+    //renderTabList();
   } else {
     alert('No search results to close.');
   }

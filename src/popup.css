@@ -1,16 +1,23 @@
+:root {
+  --main-bg-color: #22272e;
+  --main-color: #adbac7;
+  --main-color-muted: #768390;
+  --main-link-color: #539bf5;
+}
+
 html {
   color-scheme: dark;
 }
 
 body {
-  width: 400px;
-  height: 500px;
+  width: 420px;
+  height: 600px;
   overflow-y: scroll;
   margin: 0;
   padding: 0;
   
-  background-color: #222;
-  color: #fff;
+  background-color: var(--main-bg-color);
+  color: var(--main-color);
 }
 
 input[type="text"] {
@@ -25,6 +32,7 @@ input[type="text"] {
   padding: 5px;
   border-bottom: 1px solid #333;
   cursor: pointer;
+  border-radius: 6px;
 }
 
 .tab-item:hover {
@@ -61,10 +69,10 @@ input[type="text"] {
 .dash-item {
   align-items: center;
   font-size: 0.75rem;
-  padding-top: 1rem;
-  padding-bottom: 0.75rem;
+  padding: 0.2rem 0.4rem;
+  background-color: #636e7b66;
   cursor: pointer;
-  padding: 8px 6px 6px 8px;
+  border-radius: 6px;
 }
 
 .dash-item:hover {

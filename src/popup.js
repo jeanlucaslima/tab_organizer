@@ -1,134 +1,121 @@
-// all current arrays
-const tabs = await chrome.tabs.query({
-  url: [
-    '<all_urls>'
-  ]
-});
+// Get references to DOM elements
+const searchInput = document.getElementById('search');
+const tabList = document.getElementById('tab-list');
+const tabCount = document.getElementById('tab-count');
+// Dashboard counters
+const duplicateCount = document.getElementById('duplicate-count');
+const mediaCount = document.getElementById('media-count');
+const groupCount = document.getElementById('group-count');
 
-// new array with only tabs where audible is true
-const audible = tabs.filter(tab => tab.audible);
+const tabs = await chrome.tabs.query({});
+const mediaTabs = {};
 
-// new array with all the duplicated tabs
-const duplicates = tabs.filter((item, index, arr) => {
-  return arr.slice(index + 1).some(otherItem => otherItem.url === item.url);
-});
-
-document.querySelector('.number-tabs-open').append(tabs.length);
-document.querySelector('.number-audible').append(audible.length);
-document.querySelector('.number-repeated').append(duplicates.length);
-
-// To sort tabs by Title 
-//const collator = new Intl.Collator();
-//tabs.sort((a, b) => collator.compare(a.title, b.title));
-
-const template = document.getElementById('li_template');
-const elements = new Set();
-for (const tab of tabs) {
-  const element = template.content.firstElementChild.cloneNode(true);
-  
-  const title = tab.title.split('-')[0].trim();
-  const pathname = new URL(tab.url);
-  
-  element.querySelector('.title').textContent = title;
-  element.querySelector('.pathname').textContent = pathname;
-  element.querySelector('a').addEventListener('click', async () => {
-    // need to focus window as well as the active tab
-    await chrome.tabs.update(tab.id, { active: true });
-    await chrome.windows.update(tab.windowId, { focused: true });
+// Map each tab to a list item element and append to the list
+const renderTabList = (tabs) => {
+  tabs.forEach(tab => {
+    const listItem = document.createElement('div');
+    listItem.className = 'tab-item';
+    listItem.innerHTML = `
+      <img src="${tab.favIconUrl || 'img/icon-16.png'}">
+      <div class="tab-info">
+        <div class="title">${tab.title}</div>
+        <div class="url">${tab.url}</div>
+      </div>
+      <button class="close-button">&times;</button>
+    `;
+    tabList.appendChild(listItem);
+    
+    // Add event listener to close button
+    listItem.querySelector('.close-button').addEventListener('click', () => {
+      chrome.tabs.remove(tab.id);
+      listItem.remove();
+    });
   });
-  
-  
-  element.querySelector('.btn-close-tab').addEventListener('click', async () => {
-    await chrome.tabs.remove(tab.id);
-    //element.querySelector('.btn-close-tab').innerHTML = "tab removed";
-    //element.querySelector('.btn-close-tab').setAttribute('disabled', '');
-    element.remove();
-  });
-  
-  elements.add(element);
 }
-document.querySelector('ul').append(...elements);
 
-const button = document.querySelector('#group_all_tabs');
-button.addEventListener('click', async () => {
-  const tabIds = tabs.map(({ id }) => id);
-  const group = await chrome.tabs.group({ tabIds });
-  await chrome.tabGroups.update(group, { title: 'All tabs' });
-});
+// Query the list of open tabs and render them in the list
+chrome.tabs.query({}, all_tabs => {
+  // Update the tab count in the dashboard
+  tabCount.textContent = tabs.length;
 
-const show_all = document.querySelector("#show_all_tabs");
-show_all.addEventListener('click', async () => {
-  document.querySelector('ul').innerHTML = '';
-  document.querySelector('ul').append(...elements);
-});
+  // Map each tab to a list item element and append to the list
+  renderTabList(all_tabs);
 
-const clear_button = document.querySelector("#clear");
-clear_button.addEventListener('click', async () => {
-  document.querySelector('ul').innerHTML="";
-});
+  // Calculate duplicate and media tab counts
+  const urls = new Set();
+  let mediaCountValue = 0;
+  duplicateCount.textContent = "0";
 
-const search_query = document.querySelector('input[type="search"]');
-search_query.addEventListener('search', async () => {
-  let tl = document.createElement('li');
-  tl.innerHTML = 'Results for: ' + search_query.value;
-  
-  document.querySelector('ul').innerHTML = '';
-  document.querySelector('ul').appendChild(tl);
-  
-  var results = [];
-  
-  Object.values(tabs).forEach((val) => {
-    // searches for url
-    if(val.url.includes(search_query.value.toLowerCase())) { 
-      if(!results.includes(val.id)) { results.push(val) }
+  all_tabs.forEach(tab => {
+    if (urls.has(tab.url)) {
+      duplicateCount.textContent = Number(duplicateCount.textContent) + 1;
+    } else {
+      urls.add(tab.url);
     }
-    
-    // searches for title
-    if(val.title.includes(search_query.value.toLowerCase())) {         
-      if(!results.includes(val.id)) { results.push(val) }
+    if (tab.audible) {
+      // TODO: copy tab to mediaTabs obj Array
+      mediaCountValue += 1;
     }
-  });  
+  });
+  mediaCount.textContent = mediaCountValue;
+});
+
+// Set up search functionality
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.toLowerCase();
+  const items = Array.from(tabs);
   
-  const elements = new Set();
-  
-  for (const tab of results) {
-    const element = template.content.firstElementChild.cloneNode(true);
-    
-    const title = tab.title.split('-')[0].trim();
-    const pathname = new URL(tab.url);
-    
-    element.querySelector('.title').textContent = title;
-    element.querySelector('.pathname').textContent = pathname;
-    element.querySelector('a').addEventListener('click', async () => {
-      // need to focus window as well as the active tab
-      await chrome.tabs.update(tab.id, { active: true });
-      await chrome.windows.update(tab.windowId, { focused: true });
-    });
-    
-    element.querySelector('.btn-close-tab').addEventListener('click', async () => {
-      await chrome.tabs.remove(tab.id);
-      //element.querySelector('.btn-close-tab').innerHTML = "tab removed";
-      //element.querySelector('.btn-close-tab').setAttribute('disabled', '');
-      element.remove();
-    });
-    
-    elements.add(element);
-  }
-  
-  document.querySelector('ul').append(...elements);
-  document.querySelector('.tab_counter').innerHTML = "Found " + elements.size + " tabs matching.";
-  
-  const btn_group_results = document.querySelector('#group_results');
-  
-  btn_group_results.addEventListener('click', async () => {
-    const tabIds = results.map(({ id }) => id);
-    const new_group = await chrome.tabs.group({ tabIds });
-    await chrome.tabGroups.update(new_group, { title: tabs_search.value });
+  items.forEach(item => {
+    const title = item.title.toLowerCase();
+    const url = item.url.toLowerCase();
+
+    if (query.includes('*')) { // Check if query has a wildcard character
+      const regex = new RegExp(query.replace(/\*/g, '.*'), 'i'); // Replace all wildcards with regex .* pattern
+      if (title.match(regex) || url.match(regex)) {
+        console.log(`match ${title}`);
+      } else {
+        console.log('no regex match');
+      }
+    } else {
+      if (title.includes(query) || url.includes(query)) {
+        console.log(`match ${title}`);
+      } else {
+        console.log('no match');
+      }
+    }
   });
 });
 
-const kill_duplicates = document.querySelector("#kill_duplicates");
-kill_duplicates.addEventListener('click', async () => {
-  // TODO: map all tabs to be killed in a list and call chrome.tabs.kill
+const groupSearchResultsButton = document.querySelector('#group-search-results-button');
+groupSearchResultsButton.addEventListener('click', () => {
+  const items = Array.from(tabList.children);
+  const selectedItems = items.filter(item => item.style.display === 'flex');
+  if (selectedItems.length > 0) {
+    const groupTitle = prompt('Enter a title for the new group:');
+    if (groupTitle) {
+      const newGroup = {
+        title: groupTitle,
+        tabs: selectedItems.map(item => item.dataset.tabId),
+      };
+      addGroup(newGroup);
+      //renderTabList();
+    }
+  } else {
+    alert('No search results to group.');
+  }
+});
 
+// Close search results button
+const closeSearchResultsButton = document.querySelector('#close-search-results-button');
+closeSearchResultsButton.addEventListener('click', () => {
+  const items = Array.from(tabList.children);
+  const selectedItems = items.filter(item => item.style.display === 'flex');
+  if (selectedItems.length > 0) {
+    selectedItems.forEach(item => {
+      chrome.tabs.remove(parseInt(item.dataset.tabId));
+    });
+    //renderTabList();
+  } else {
+    alert('No search results to close.');
+  }
 });

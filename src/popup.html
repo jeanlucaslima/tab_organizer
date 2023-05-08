@@ -7,67 +7,21 @@
   <link rel="stylesheet" href="./popup.css" />
 </head>
 <body>
-  <template id="li_template">
-    <li>
-      <div>
-        <a>
-          <h3 class="title">Tab Title</h3>
-          <p class="pathname">Tab Pathname</p>
-        </a>
-        <button class="btn btn-close-tab">X</button>
-        <button class="btn btn-mute">m</button>
-      </div>
-    </li>
-  </template>
-  
-  <div class="stats-container">
-    <span class="stat stat-tabs-open">
-      <p class="big-number number-tabs-open"></p>
-      <p class="stat-sub">open tabs</p>
-    </span>
-
-    <span class="stat stat-tabs-repeated">
-      <p class="big-number number-repeated">0</p>
-      <p class="stat-sub">repeated tabs</p>
-    </span>
-
-    <span class="stat stat-tabs-playing">
-      <p class="big-number number-audible"></p>
-      <p class="stat-sub">tabs playing media</p>
-    </span>
-  </div>  
-
-  <div class="button-row">
-    <button class="button" id="kill_duplicates">Kill duplicates</button>
-    <button class="button" id="group_all_tabs">Group all tabs</button>
-    <button class="button" id="show_all_tabs">Show all tabs</button>
+  <div class="dashboard">
+    <div class="dash-item"><span id="tab-count"></span> open tabs</div>
+    <div class="dash-item"><span id="group-count">3</span> groups</div>
+    <div class="dash-item"><span id="duplicate-count"></span> duplicates</div>
+    <div class="dash-item"><span id="media-count"></span> playing media</div>
   </div>
-
-  <input 
-    aria-autocomplete="list"
-    aria-expanded="false"
-    autocomplete="off"
-    placeholder="Search by URL"
-    type="search"
-    incremental="incremental"
-    autofocus />
-
-  <div class="results">
-    <p class="tab_counter"></p>
-
-    <div class="actions">
-      <button class="button" id="clear">Clear results</button>
-      <button class="button" id="group_results">Group these tabs</button>
+  <div class="search-container">
+    <input type="text" id="search" placeholder="Search tabs..." autofocus>
+    <div class="search-buttons">
+      <button id="group-search-results-button">Group results</button>
+      <button id="close-search-results-button">Close results</button>
     </div>
-
-    <ul></ul>
   </div>
-
-  <footer>
-    <p>Tab Organizer</p> 
-    <p>version 0.1 (alpha)</p>
-  </footer>
   
-  <script src="./popup.js" type="module"></script>
+  <div id="tab-list"></div>
+  <script src="popup.js" type="module"></script>
 </body>
 </html>

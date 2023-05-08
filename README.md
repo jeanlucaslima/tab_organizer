@@ -4,6 +4,15 @@ A simple Chrome extension to organize tabs, windows, and groups.
 
 This is a **WIP** not released yet, using it may hurt your tabs. 
 
+{% note %}
+
+**Important note:** Current status is `breaking` and this extension is not working properly.
+
+* Search is not working
+* Gruping is not working
+
+{% endnote %}
+
 ## Why? 
 I am a mess, I deal with 100+ tabs weekly. And I was annoyed that I couldn't find a good tab organizer that would allow me to kill all tabs matching a search and/or regex. 
 
@@ -44,5 +53,5 @@ Will return me all tabs that have both words `linkedin` and `john`, but not nece
 * `link*` 
 Will return me all tabs that have words that start with `link`, that would include `linkedin` for example. 
 
+<img width="425" alt="image" src="https://user-images.githubusercontent.com/1311402/236884510-553cc591-6f50-4cbc-ab51-8d922be93f8f.png">
 
-<img width="400" alt="image" src="https://user-images.githubusercontent.com/1311402/233271063-c68c70e7-338b-4fa1-b6cd-fd5ddb23dd5f.png">

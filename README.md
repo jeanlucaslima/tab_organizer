@@ -4,14 +4,11 @@ A simple Chrome extension to organize tabs, windows, and groups.
 
 This is a **WIP** not released yet, using it may hurt your tabs. 
 
-{% note %}
-
-**Important note:** Current status is `breaking` and this extension is not working properly.
-
-* Search is not working
-* Gruping is not working
-
-{% endnote %}
+>**Important note:** Current status is `breaking` and this extension is not working properly.
+>
+>* Search is not working
+>* Gruping is not working
+>
 
 ## Why? 
 I am a mess, I deal with 100+ tabs weekly. And I was annoyed that I couldn't find a good tab organizer that would allow me to kill all tabs matching a search and/or regex. 

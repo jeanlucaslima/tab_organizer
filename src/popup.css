@@ -3,6 +3,9 @@
   --main-color: #adbac7;
   --main-color-muted: #768390;
   --main-link-color: #539bf5;
+  --btn-bg-color: #373e47;
+  --btn-bg-color-hover: #444c56;
+  --btn-border-color-hover:  #768390;
 }
 
 html {
@@ -23,6 +26,14 @@ body {
 input[type="text"] {
   width: 98%;
   margin-bottom: 10px;
+  font-size: 0.75rem;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+input[type="text"]:focus {
+  transition-duration: 1s;
+  outline: 1px solid var(--main-link-color);
 }
 
 .tab-item {
@@ -70,14 +81,23 @@ input[type="text"] {
   align-items: center;
   font-size: 0.75rem;
   padding: 0.2rem 0.4rem;
-  background-color: #636e7b66;
+  background-color: var(--btn-bg-color);
   cursor: pointer;
   border-radius: 6px;
+  border: 1px solid;
+  border-color: transparent;
 }
 
 .dash-item:hover {
-  background-color: #444;
-  color: white;
+  background-color: var(--btn-bg-color-hover);
+  border-color: var(--btn-border-color-hover);
+  transition-duration: 0.25s;
+}
+
+.search-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
 }
 
 .search-container {
@@ -150,4 +170,23 @@ input[type="text"] {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #666;
+}
+
+.btn {
+  position: relative;
+  padding: 5px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  border: 1px solid;
+  vertical-align: middle;
+  background-color: var(--btn-bg-color);
+  border-color: transparent;
+  color: var(--main-color);
+}
+
+.btn:hover {
+  background-color: var(--btn-bg-color-hover);
+  transition-duration: 0.25s;
+  border-color: var(--btn-border-color-hover);
 }

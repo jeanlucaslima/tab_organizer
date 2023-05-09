@@ -16,7 +16,7 @@ const renderTabList = (tabs) => {
     const listItem = document.createElement('div');
     listItem.className = 'tab-item';
     listItem.innerHTML = `
-      <img src="${tab.favIconUrl || 'img/icon-16.png'}">
+      <img src="${tab.favIconUrl || 'img/icon_16.png'}">
       <div class="tab-info">
         <div class="title">${tab.title}</div>
         <div class="url">${tab.url}</div>
@@ -26,9 +26,16 @@ const renderTabList = (tabs) => {
     tabList.appendChild(listItem);
     
     // Add event listener to close button
-    listItem.querySelector('.close-button').addEventListener('click', () => {
-      chrome.tabs.remove(tab.id);
+    listItem.querySelector('.close-button').addEventListener('click', async () => {
+      await chrome.tabs.remove(tab.id);
       listItem.remove();
+    });
+
+    // Add event listener to navigate to tab onclick
+    listItem.addEventListener('click', async () => {
+      // it's not enough to only focus the tab, you gotta focus the window too
+      await chrome.tabs.update(tab.id, { active: true });
+      await chrome.windows.update(tab.windowId, { focused: true });
     });
   });
 }

@@ -5,13 +5,47 @@ const tabCount = document.getElementById('tab-count');
 // Dashboard counters
 const duplicateCount = document.getElementById('duplicate-count');
 const mediaCount = document.getElementById('media-count');
-const groupCount = document.getElementById('group-count');
 
+// Search related buttons
+const btnGroup = document.getElementById('group-search-results-button');
+const btnClose = document.getElementById('close-search-results-button');
+
+// Tabs
 const tabs = await chrome.tabs.query({});
 const mediaTabs = {};
 
+const updateMediaCounter = (tabs) => {
+  // Calculate duplicate and media tab counts
+  const urls = new Set();
+  let mediaCountValue = 0;
+  duplicateCount.textContent = "0";
+
+  tabs.forEach(tab => {
+    if (urls.has(tab.url)) {
+      duplicateCount.textContent = Number(duplicateCount.textContent) + 1;
+    } else {
+      urls.add(tab.url);
+    }
+    if (tab.audible) {
+      // TODO: copy tab to mediaTabs obj Array
+      mediaCountValue += 1;
+    }
+  });
+  mediaCount.textContent = mediaCountValue;
+}
+
+const setup = (tabs) => {
+  // Update the tab count in the dashboard
+  tabCount.textContent = tabs.length;
+
+  updateMediaCounter(tabs);
+  renderTabList(tabs);
+}
+
+
 // Map each tab to a list item element and append to the list
 const renderTabList = (tabs) => {
+  // Map each tab to a list item element and append to the list
   tabs.forEach(tab => {
     const listItem = document.createElement('div');
     listItem.className = 'tab-item';
@@ -39,33 +73,6 @@ const renderTabList = (tabs) => {
     });
   });
 }
-
-// Query the list of open tabs and render them in the list
-chrome.tabs.query({}, all_tabs => {
-  // Update the tab count in the dashboard
-  tabCount.textContent = tabs.length;
-
-  // Map each tab to a list item element and append to the list
-  renderTabList(all_tabs);
-
-  // Calculate duplicate and media tab counts
-  const urls = new Set();
-  let mediaCountValue = 0;
-  duplicateCount.textContent = "0";
-
-  all_tabs.forEach(tab => {
-    if (urls.has(tab.url)) {
-      duplicateCount.textContent = Number(duplicateCount.textContent) + 1;
-    } else {
-      urls.add(tab.url);
-    }
-    if (tab.audible) {
-      // TODO: copy tab to mediaTabs obj Array
-      mediaCountValue += 1;
-    }
-  });
-  mediaCount.textContent = mediaCountValue;
-});
 
 // Set up search functionality
 searchInput.addEventListener('input', () => {
@@ -129,3 +136,6 @@ closeSearchResultsButton.addEventListener('click', () => {
     alert('No search results to close.');
   }
 });
+
+// initialize
+setup(tabs);

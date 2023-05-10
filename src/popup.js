@@ -76,8 +76,10 @@ searchInput.addEventListener('input', () => {
     const title = item.title.toLowerCase();
     const url = item.url.toLowerCase();
 
-    if (query.includes('*')) { // Check if query has a wildcard character
-      const regex = new RegExp(query.replace(/\*/g, '.*'), 'i'); // Replace all wildcards with regex .* pattern
+    // If query has a wildcard character
+    if (query.includes('*')) { 
+      // Replace all wildcards with regex .* pattern
+      const regex = new RegExp(query.replace(/\*/g, '.*'), 'i'); 
       if (title.match(regex) || url.match(regex)) {
         console.log(`match ${title}`);
       } else {
@@ -86,8 +88,9 @@ searchInput.addEventListener('input', () => {
     } else {
       if (title.includes(query) || url.includes(query)) {
         console.log(`match ${title}`);
+        console.log(`id: ${item.id}`)
       } else {
-        console.log('no match');
+        console.log(`no match for ${query}`);
       }
     }
   });
@@ -104,7 +107,7 @@ groupSearchResultsButton.addEventListener('click', () => {
         title: groupTitle,
         tabs: selectedItems.map(item => item.dataset.tabId),
       };
-      addGroup(newGroup);
+      //ddGroup(newGroup);
       //renderTabList();
     }
   } else {

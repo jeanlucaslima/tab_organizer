@@ -13,37 +13,66 @@ const btnClose = document.getElementById('close-search-results-button');
 // Tabs
 const tabs = await chrome.tabs.query({});
 const mediaTabs = new Set();
-const dupesTabs = new Set();
+const dupeTabList = new Set();
 
 const updateDuplicates = (tabs) => {
-  // Calculate duplicate 
-  const urls = new Set();
-  
-  duplicateCount.textContent = "0";
+  var urlMap = {};       // Object to keep track of URLs and their occurrence counts
+  var tabsToClose = [];  // Array to store the IDs of duplicate tabs that need to be closed
 
-  tabs.forEach(tab => {
-    if (urls.has(tab.url)) {
-      duplicateCount.textContent = Number(duplicateCount.textContent) + 1;
-      dupesTabs.add(tab);
+  tabs.forEach(function(tab) {
+    if (urlMap[tab.url]) {          // If the URL already exists in urlMap
+      tabsToClose.push(tab.id);     // Add the tab ID to tabsToClose
+      dupeTabList.add(tab);
     } else {
-      urls.add(tab.url);
+      urlMap[tab.url] = true;       // Mark the URL as seen by adding it to urlMap
     }
   });
+
+  // Update dashboard
+  duplicateCount.textContent = "2";
+  console.log(`${dupeTabList.size}`);
+
+  // // Close the duplicate tabs
+  // chrome.tabs.remove(tabsToClose, function() {
+  //   console.log("Duplicate tabs closed");
+  // });
+
+  // // Calculate duplicate 
+  // const urls = new Set();
+  // duplicateCount.textContent = "0";
+
+  // tabs.forEach(tab => {
+  //   if (urls.has(tab.url)) {
+  //     duplicateCount.textContent = Number(duplicateCount.textContent) + 1;
+  //     dupeTabList.add(tab);
+  //   } else {
+  //     urls.add(tab.url);
+  //   }
+  // });
 
   // When clicking on duplicates, list all if there are any
   const btnDupes = document.querySelector('.dupes');
   btnDupes.addEventListener('click', () => {
-    if(urls.size > 0) { renderTabList(dupesTabs); }
+    if(dupeTabList.size > 0) { 
+      renderTabList(dupeTabList); 
+    }
   });
 
-  urls.clear();
-  dupesTabs.clear();
+  // Double click closes all duplicates
+  btnDupes.addEventListener("dblclick", async () => {
+    // Close the duplicate tabs
+    await chrome.tabs.remove(tabsToClose);
+
+    // query all tabs again and re-setup
+    // const resetTabs = await chrome.tabs.query({});
+    // setup(resetTabs);
+  });
 }
 
 const updateMediaCounter = (tabs) => {
   // Calculate media tab counts
   let mediaCountValue = 0;
-  duplicateCount.textContent = "0";
+  mediaCount.textContent = "0";
 
   tabs.forEach(tab => {
     if (tab.audible) {
@@ -57,10 +86,15 @@ const updateMediaCounter = (tabs) => {
   // When clicking on media, list all if there are any
   const btnMedia = document.querySelector('.media');
   btnMedia.addEventListener('click', () => {
-    if (mediaTabs.size > 0) { renderTabList(mediaTabs); }
-  });
+    if (mediaTabs.size > 0) {
+      // update search results area
+      searchInput.value = '';
+      btnGroup.textContent = `Group (${mediaTabs.size}) tabs`;
+      btnClose.textContent = `Close (${mediaTabs.size}) tabs`;
 
-  btnMedia.clear();
+      renderTabList(mediaTabs); 
+    }
+  });
 }
 
 const setup = (tabs) => {

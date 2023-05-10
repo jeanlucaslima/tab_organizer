@@ -17,11 +17,14 @@ const dupesTabs = new Set();
 
 const updateDuplicates = (tabs) => {
   // Calculate duplicate 
+  const urls = new Set();
+  
   duplicateCount.textContent = "0";
 
   tabs.forEach(tab => {
     if (urls.has(tab.url)) {
       duplicateCount.textContent = Number(duplicateCount.textContent) + 1;
+      dupesTabs.add(tab);
     } else {
       urls.add(tab.url);
     }
@@ -30,8 +33,11 @@ const updateDuplicates = (tabs) => {
   // When clicking on duplicates, list all if there are any
   const btnDupes = document.querySelector('.dupes');
   btnDupes.addEventListener('click', () => {
-    if(btnDupes.size > 0) { renderTabList(urls); }
+    if(urls.size > 0) { renderTabList(dupesTabs); }
   });
+
+  urls.clear();
+  dupesTabs.clear();
 }
 
 const updateMediaCounter = (tabs) => {
@@ -53,17 +59,25 @@ const updateMediaCounter = (tabs) => {
   btnMedia.addEventListener('click', () => {
     if (mediaTabs.size > 0) { renderTabList(mediaTabs); }
   });
+
+  btnMedia.clear();
 }
 
 const setup = (tabs) => {
   // Update the tab count in the dashboard
   tabCount.textContent = tabs.length;
+  
   const btnCount = document.querySelector('.count');
-  btnCount.addEventListener('click', () => {
-    if(tabs.length > 0) { renderTabList(tabs); }
+  btnCount.addEventListener('click', async () => {
+    if(tabs.length > 0) { 
+      const allTabs = await chrome.tabs.query({});
+      renderTabList(allTabs); 
+    }
   });
 
+  updateDuplicates(tabs);
   updateMediaCounter(tabs);
+
   renderTabList(tabs);
 }
 

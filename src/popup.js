@@ -12,13 +12,11 @@ const btnClose = document.getElementById('close-search-results-button');
 
 // Tabs
 const tabs = await chrome.tabs.query({});
+const mediaTabs = new Set();
+const dupesTabs = new Set();
 
-const mediaTabs = {};
-
-const updateMediaCounter = (tabs) => {
-  // Calculate duplicate and media tab counts
-  const urls = new Set();
-  let mediaCountValue = 0;
+const updateDuplicates = (tabs) => {
+  // Calculate duplicate 
   duplicateCount.textContent = "0";
 
   tabs.forEach(tab => {
@@ -27,25 +25,51 @@ const updateMediaCounter = (tabs) => {
     } else {
       urls.add(tab.url);
     }
+  });
+
+  // When clicking on duplicates, list all if there are any
+  const btnDupes = document.querySelector('.dupes');
+  btnDupes.addEventListener('click', () => {
+    if(btnDupes.size > 0) { renderTabList(urls); }
+  });
+}
+
+const updateMediaCounter = (tabs) => {
+  // Calculate media tab counts
+  let mediaCountValue = 0;
+  duplicateCount.textContent = "0";
+
+  tabs.forEach(tab => {
     if (tab.audible) {
-      // TODO: copy tab to mediaTabs obj Array
+      mediaTabs.add(tab);
       mediaCountValue += 1;
     }
   });
+  
   mediaCount.textContent = mediaCountValue;
+  
+  // When clicking on media, list all if there are any
+  const btnMedia = document.querySelector('.media');
+  btnMedia.addEventListener('click', () => {
+    if (mediaTabs.size > 0) { renderTabList(mediaTabs); }
+  });
 }
 
 const setup = (tabs) => {
   // Update the tab count in the dashboard
   tabCount.textContent = tabs.length;
+  const btnCount = document.querySelector('.count');
+  btnCount.addEventListener('click', () => {
+    if(tabs.length > 0) { renderTabList(tabs); }
+  });
 
   updateMediaCounter(tabs);
   renderTabList(tabs);
 }
 
-
 // Map each tab to a list item element and append to the list
 const renderTabList = (tabs) => {
+  //TODO: add transition time
   // clear first
   tabList.innerHTML = '';
   // Map each tab to a list item element and append to the list
@@ -110,8 +134,8 @@ searchInput.addEventListener('input', async () => {
   renderTabList(searchResults);
 });
 
-const groupSearchResultsButton = document.querySelector('#group-search-results-button');
-groupSearchResultsButton.addEventListener('click', () => {
+// Group search results button
+btnGroup.addEventListener('click', () => {
   const items = Array.from(tabList.children);
   const selectedItems = items.filter(item => item.style.display === 'flex');
   if (selectedItems.length > 0) {
@@ -130,8 +154,7 @@ groupSearchResultsButton.addEventListener('click', () => {
 });
 
 // Close search results button
-const closeSearchResultsButton = document.querySelector('#close-search-results-button');
-closeSearchResultsButton.addEventListener('click', () => {
+btnClose.addEventListener('click', () => {
   const items = Array.from(tabList.children);
   const selectedItems = items.filter(item => item.style.display === 'flex');
   if (selectedItems.length > 0) {

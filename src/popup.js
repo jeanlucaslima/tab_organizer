@@ -12,6 +12,7 @@ const btnClose = document.getElementById('close-search-results-button');
 
 // Tabs
 const tabs = await chrome.tabs.query({});
+
 const mediaTabs = {};
 
 const updateMediaCounter = (tabs) => {
@@ -45,6 +46,8 @@ const setup = (tabs) => {
 
 // Map each tab to a list item element and append to the list
 const renderTabList = (tabs) => {
+  // clear first
+  tabList.innerHTML = '';
   // Map each tab to a list item element and append to the list
   tabs.forEach(tab => {
     const listItem = document.createElement('div');
@@ -75,32 +78,36 @@ const renderTabList = (tabs) => {
 }
 
 // Set up search functionality
-searchInput.addEventListener('input', () => {
+searchInput.addEventListener('input', async () => {
   const query = searchInput.value.toLowerCase();
-  const items = Array.from(tabs);
-  
-  items.forEach(item => {
-    const title = item.title.toLowerCase();
-    const url = item.url.toLowerCase();
+  const searchResults = new Set();
+
+  // update tabs list
+  const queryTabs = await chrome.tabs.query({});
+
+  queryTabs.forEach(tab => { 
+    const title = tab.title.toLowerCase();
+    const url = tab.url.toLowerCase();
 
     // If query has a wildcard character
     if (query.includes('*')) { 
       // Replace all wildcards with regex .* pattern
       const regex = new RegExp(query.replace(/\*/g, '.*'), 'i'); 
       if (title.match(regex) || url.match(regex)) {
-        console.log(`match ${title}`);
-      } else {
-        console.log('no regex match');
-      }
+        searchResults.add(tab);
+      } 
     } else {
       if (title.includes(query) || url.includes(query)) {
-        console.log(`match ${title}`);
-        console.log(`id: ${item.id}`)
-      } else {
-        console.log(`no match for ${query}`);
+        searchResults.add(tab);
       }
     }
   });
+
+  // update search result btns
+  btnGroup.textContent = `Group (${searchResults.size}) tabs`;
+  btnClose.textContent = `Close (${searchResults.size}) tabs`;
+
+  renderTabList(searchResults);
 });
 
 const groupSearchResultsButton = document.querySelector('#group-search-results-button');
@@ -114,7 +121,7 @@ groupSearchResultsButton.addEventListener('click', () => {
         title: groupTitle,
         tabs: selectedItems.map(item => item.dataset.tabId),
       };
-      //ddGroup(newGroup);
+      //addGroup(newGroup);
       //renderTabList();
     }
   } else {

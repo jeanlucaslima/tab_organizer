@@ -18,7 +18,7 @@ body {
   overflow-y: scroll;
   margin: 0;
   padding: 0;
-  
+
   background-color: var(--main-bg-color);
   color: var(--main-color);
 }
@@ -38,30 +38,35 @@ input[type="text"]:focus {
 
 .tab-item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px;
-  border-bottom: 1px solid #333;
+  justify-content: flex-start;
   cursor: pointer;
   border-radius: 6px;
+  border: 1px solid green;
+  padding: 5px;
+  width: calc(100%-8px);
+}
+
+.focus-group {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
 }
 
 .tab-item:hover {
   background-color: #444;
 }
 
-.tab-item img {
+.focus-group img {
   width: 16px;
   height: 16px;
   margin-right: 5px;
 }
 
-.tab-item .title {
+.focus-group .title {
   flex: 1;
-  margin-right: 10px;
 }
 
-.tab-item .close-button {
+.focus-group .close-button {
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -108,11 +113,12 @@ input[type="text"]:focus {
   border: none;
   background-color: transparent;
   cursor: pointer;
-  width: calc(100% - 60px)
+  width: 100%;
+  overflow: hidden;
 }
 
-.title {
-  margin-left: 8px;
+.tab-title {
+  margin-left: 4px;
   flex-grow: 1;
   font-weight: bold;
   white-space: nowrap;
@@ -121,7 +127,7 @@ input[type="text"]:focus {
 }
 
 .url {
-  margin-left: 8px;
+  margin-left: 4px;
   flex-grow: 1;
   font-weight: bold;
   white-space: nowrap;
@@ -135,7 +141,6 @@ input[type="text"]:focus {
   background-color: transparent;
   color: #fff;
   font-size: 20px;
-  margin-left: 8px;
   cursor: pointer;
 }
 

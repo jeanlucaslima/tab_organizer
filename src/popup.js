@@ -37,7 +37,7 @@ const updateDuplicates = (tabs) => {
   //   console.log("Duplicate tabs closed");
   // });
 
-  // // Calculate duplicate 
+  // // Calculate duplicate
   // const urls = new Set();
   // duplicateCount.textContent = "0";
 
@@ -53,8 +53,8 @@ const updateDuplicates = (tabs) => {
   // When clicking on duplicates, list all if there are any
   const btnDupes = document.querySelector('.dupes');
   btnDupes.addEventListener('click', () => {
-    if(dupeTabList.size > 0) { 
-      renderTabList(dupeTabList); 
+    if(dupeTabList.size > 0) {
+      renderTabList(dupeTabList);
     }
   });
 
@@ -80,9 +80,9 @@ const updateMediaCounter = (tabs) => {
       mediaCountValue += 1;
     }
   });
-  
+
   mediaCount.textContent = mediaCountValue;
-  
+
   // When clicking on media, list all if there are any
   const btnMedia = document.querySelector('.media');
   btnMedia.addEventListener('click', () => {
@@ -92,7 +92,7 @@ const updateMediaCounter = (tabs) => {
       btnGroup.textContent = `Group (${mediaTabs.size}) tabs`;
       btnClose.textContent = `Close (${mediaTabs.size}) tabs`;
 
-      renderTabList(mediaTabs); 
+      renderTabList(mediaTabs);
     }
   });
 }
@@ -100,12 +100,12 @@ const updateMediaCounter = (tabs) => {
 const setup = (tabs) => {
   // Update the tab count in the dashboard
   tabCount.textContent = tabs.length;
-  
+
   const btnCount = document.querySelector('.count');
   btnCount.addEventListener('click', async () => {
-    if(tabs.length > 0) { 
+    if(tabs.length > 0) {
       const allTabs = await chrome.tabs.query({});
-      renderTabList(allTabs); 
+      renderTabList(allTabs);
     }
   });
 
@@ -125,15 +125,17 @@ const renderTabList = (tabs) => {
     const listItem = document.createElement('div');
     listItem.className = 'tab-item';
     listItem.innerHTML = `
-      <img src="${tab.favIconUrl || 'img/icon_16.png'}">
-      <div class="tab-info">
-        <div class="title">${tab.title}</div>
-        <div class="url">${tab.url}</div>
+      <div class="focus-group">
+        <img src="${tab.favIconUrl || 'img/icon_16.png'}">
+        <div class="tab-info">
+          <div class="tab-title">${tab.title}</div>
+          <div class="url">${tab.url}</div>
+        </div>
       </div>
       <button class="close-button">&times;</button>
     `;
     tabList.appendChild(listItem);
-    
+
     // Add event listener to close button
     listItem.querySelector('.close-button').addEventListener('click', async () => {
       await chrome.tabs.remove(tab.id);
@@ -157,17 +159,17 @@ searchInput.addEventListener('input', async () => {
   // update tabs list
   const queryTabs = await chrome.tabs.query({});
 
-  queryTabs.forEach(tab => { 
+  queryTabs.forEach(tab => {
     const title = tab.title.toLowerCase();
     const url = tab.url.toLowerCase();
 
     // If query has a wildcard character
-    if (query.includes('*')) { 
+    if (query.includes('*')) {
       // Replace all wildcards with regex .* pattern
-      const regex = new RegExp(query.replace(/\*/g, '.*'), 'i'); 
+      const regex = new RegExp(query.replace(/\*/g, '.*'), 'i');
       if (title.match(regex) || url.match(regex)) {
         searchResults.add(tab);
-      } 
+      }
     } else {
       if (title.includes(query) || url.includes(query)) {
         searchResults.add(tab);

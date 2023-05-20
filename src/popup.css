@@ -5,7 +5,7 @@
   --main-link-color: #539bf5;
   --btn-bg-color: #373e47;
   --btn-bg-color-hover: #444c56;
-  --btn-border-color-hover:  #768390;
+  --btn-border-color-hover: #768390;
 }
 
 html {
@@ -37,19 +37,18 @@ input[type="text"]:focus {
 }
 
 .tab-item {
-  display: flex;
-  justify-content: flex-start;
   cursor: pointer;
   border-radius: 6px;
   border-bottom: 1px solid rgb(45, 46, 45);
   padding: 5px;
-  width: calc(100%-8px);
+
+  display: grid;
+  grid-template-columns: 1fr 24px;
 }
 
 .focus-group {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 24px 1fr;
 }
 
 .tab-item:hover {
@@ -60,10 +59,7 @@ input[type="text"]:focus {
   width: 16px;
   height: 16px;
   margin-right: 5px;
-}
-
-.focus-group .title {
-  flex: 1;
+  align-self: center;
 }
 
 .focus-group .close-button {
@@ -73,7 +69,7 @@ input[type="text"]:focus {
 }
 
 #tab-list {
-    padding: 2px 6px;
+  padding: 2px 6px;
 }
 
 .dashboard {
@@ -119,21 +115,18 @@ input[type="text"]:focus {
 
 .tab-title {
   margin-left: 4px;
-  flex-grow: 1;
   font-weight: bold;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.url {
+.tab-url {
   margin-left: 4px;
-  flex-grow: 1;
-  font-weight: bold;
+  font-weight: normal;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-weight: normal;
 }
 
 .close-button {
@@ -146,6 +139,7 @@ input[type="text"]:focus {
 
 .close-button:hover {
   color: #f00;
+  background-color: #539bf5;
 }
 
 .group-header {

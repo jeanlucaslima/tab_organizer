@@ -1,8 +1,9 @@
 // Get references to DOM elements
 const searchInput = document.getElementById('search');
 const tabList = document.getElementById('tab-list');
-const tabCount = document.getElementById('tab-count');
+
 // Dashboard counters
+const tabCount = document.getElementById('tab-count');
 const duplicateCount = document.getElementById('duplicate-count');
 const mediaCount = document.getElementById('media-count');
 
@@ -29,8 +30,8 @@ const updateDuplicates = (tabs) => {
   });
 
   // Update dashboard
-  duplicateCount.textContent = "2";
-  console.log(`${dupeTabList.size}`);
+  duplicateCount.textContent = `${dupeTabList.size}`;
+
 
   // // Close the duplicate tabs
   // chrome.tabs.remove(tabsToClose, function() {
@@ -54,6 +55,10 @@ const updateDuplicates = (tabs) => {
   const btnDupes = document.querySelector('.dupes');
   btnDupes.addEventListener('click', () => {
     if(dupeTabList.size > 0) {
+      searchInput.value = '';
+      btnGroup.textContent = `Group (${dupeTabList.size}) tabs`;
+      btnClose.textContent = `Close (${dupeTabList.size}) tabs`;
+
       renderTabList(dupeTabList);
     }
   });
@@ -105,6 +110,8 @@ const setup = (tabs) => {
   btnCount.addEventListener('click', async () => {
     if(tabs.length > 0) {
       const allTabs = await chrome.tabs.query({});
+      btnGroup.textContent = `Group all tabs`;
+      btnClose.textContent = `Close all tabs`;
       renderTabList(allTabs);
     }
   });
@@ -129,7 +136,7 @@ const renderTabList = (tabs) => {
         <img src="${tab.favIconUrl || 'img/icon_16.png'}">
         <div class="tab-info">
           <div class="tab-title">${tab.title}</div>
-          <div class="url">${tab.url}</div>
+          <div class="tab-url">${tab.url}</div>
         </div>
       </div>
       <button class="close-button">&times;</button>

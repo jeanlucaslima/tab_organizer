@@ -150,8 +150,7 @@ const renderTabList = (tabs) => {
     });
 
     // Add event listener to navigate to tab onclick
-    listItem.addEventListener('click', async () => {
-      // it's not enough to only focus the tab, you gotta focus the window too
+    listItem.querySelector('.focus-group').addEventListener('click', async () => {
       await chrome.tabs.update(tab.id, { active: true });
       await chrome.windows.update(tab.windowId, { focused: true });
     });

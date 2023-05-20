@@ -32,25 +32,6 @@ const updateDuplicates = (tabs) => {
   // Update dashboard
   duplicateCount.textContent = `${dupeTabList.size}`;
 
-
-  // // Close the duplicate tabs
-  // chrome.tabs.remove(tabsToClose, function() {
-  //   console.log("Duplicate tabs closed");
-  // });
-
-  // // Calculate duplicate
-  // const urls = new Set();
-  // duplicateCount.textContent = "0";
-
-  // tabs.forEach(tab => {
-  //   if (urls.has(tab.url)) {
-  //     duplicateCount.textContent = Number(duplicateCount.textContent) + 1;
-  //     dupeTabList.add(tab);
-  //   } else {
-  //     urls.add(tab.url);
-  //   }
-  // });
-
   // When clicking on duplicates, list all if there are any
   const btnDupes = document.querySelector('.dupes');
   btnDupes.addEventListener('click', () => {
@@ -125,6 +106,7 @@ const setup = (tabs) => {
 // Map each tab to a list item element and append to the list
 const renderTabList = (tabs) => {
   //TODO: add transition time
+  //TODO: render empty state
   // clear first
   tabList.innerHTML = '';
   // Map each tab to a list item element and append to the list

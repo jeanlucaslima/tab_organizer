@@ -16,6 +16,19 @@ const tabs = await chrome.tabs.query({});
 const mediaTabs = new Set();
 const dupeTabList = new Set();
 
+const updateDashboard = async () => {
+  let currentTabs = await chrome.tabs.query({});
+
+  updateTabCounter(currentTabs);
+  updateDuplicates(currentTabs);
+  updateMediaCounter(currentTabs);
+}
+
+const updateTabCounter = (tabs) => {
+
+  tabCount.textContent = tabs.length;
+};
+
 const updateDuplicates = (tabs) => {
   var urlMap = {};       // Object to keep track of URLs and their occurrence counts
   var tabsToClose = [];  // Array to store the IDs of duplicate tabs that need to be closed
@@ -53,7 +66,7 @@ const updateDuplicates = (tabs) => {
     // const resetTabs = await chrome.tabs.query({});
     // setup(resetTabs);
   });
-}
+};
 
 const updateMediaCounter = (tabs) => {
   // Calculate media tab counts
@@ -85,21 +98,20 @@ const updateMediaCounter = (tabs) => {
 
 const setup = (tabs) => {
   // Update the tab count in the dashboard
-  tabCount.textContent = tabs.length;
 
   const btnCount = document.querySelector('.count');
   btnCount.addEventListener('click', async () => {
     if(tabs.length > 0) {
       const allTabs = await chrome.tabs.query({});
+
       btnGroup.textContent = `Group all tabs`;
       btnClose.textContent = `Close all tabs`;
+
       renderTabList(allTabs);
     }
   });
 
-  updateDuplicates(tabs);
-  updateMediaCounter(tabs);
-
+  updateDashboard();
   renderTabList(tabs);
 }
 
@@ -107,8 +119,8 @@ const setup = (tabs) => {
 const renderTabList = (tabs) => {
   //TODO: add transition time
   //TODO: render empty state
-  // clear first
-  tabList.innerHTML = '';
+
+  tabList.innerHTML = ''; // Clear the current list
   // Map each tab to a list item element and append to the list
   tabs.forEach(tab => {
     const listItem = document.createElement('div');
@@ -129,6 +141,7 @@ const renderTabList = (tabs) => {
     listItem.querySelector('.close-button').addEventListener('click', async () => {
       await chrome.tabs.remove(tab.id);
       listItem.remove();
+      updateDashboard();
     });
 
     // Add event listener to navigate to tab onclick

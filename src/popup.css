@@ -72,15 +72,17 @@ input[type="text"]:focus {
 }
 
 .dashboard {
-  display: flex;
-  justify-content: space-evenly;
   padding: 5px;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 16px;
+  justify-content: space-around;
 }
 
 .dash-item {
-  align-items: center;
   font-size: 0.75rem;
   padding: 0.2rem 0.4rem;
   background-color: var(--btn-bg-color);
@@ -88,6 +90,9 @@ input[type="text"]:focus {
   border-radius: 6px;
   border: 1px solid;
   border-color: transparent;
+
+  align-self: center;
+  justify-self: center;
 }
 
 .dash-item:hover {

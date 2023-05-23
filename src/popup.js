@@ -142,6 +142,7 @@ const renderTabList = (tabs) => {
       await chrome.tabs.remove(tab.id);
       listItem.remove();
       updateDashboard();
+      searchInput.focus();
     });
 
     // Add event listener to navigate to tab onclick

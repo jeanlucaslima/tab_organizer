@@ -13,8 +13,7 @@ html {
 }
 
 body {
-  width: 420px;
-  height: 600px;
+  width: 320px;
   overflow-y: scroll;
   padding: 0;
   margin: 0;
@@ -117,6 +116,10 @@ input[type="text"]:focus {
   cursor: pointer;
   width: 100%;
   overflow: hidden;
+  height: 2.5rem;
+  display: grid;
+  align-items: center;
+  grid-template-rows: 1fr 1fr;
 }
 
 .tab-title {
@@ -125,6 +128,7 @@ input[type="text"]:focus {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  place-self: end stretch;
 }
 
 .tab-url {
@@ -133,6 +137,7 @@ input[type="text"]:focus {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  place-self: start stretch;
 }
 
 .close-button {

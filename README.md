@@ -1,4 +1,6 @@
-# tabber
+tabber
+
+# Deprecated. Moved to [Advanced Tab Organizer](https://github.com/jeanlucaslima/ato/)
 
 A simple Chrome extension to organize tabs, windows, and groups. 
 
